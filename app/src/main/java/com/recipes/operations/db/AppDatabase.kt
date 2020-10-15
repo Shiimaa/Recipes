@@ -15,7 +15,7 @@ abstract class AppDatabase : RoomDatabase() {
         private var db: AppDatabase? = null
         private val mutex = Any()
 
-        open fun getInstance(): AppDatabase? {
+        fun getInstance(): AppDatabase? {
             if (db == null) {
                 synchronized(mutex) {
                     if (db == null) {

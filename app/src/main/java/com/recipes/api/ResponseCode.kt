@@ -11,6 +11,7 @@ object ResponseCode {
         when (response.code()) {
             200 -> callback.onResponse(response)
             204 -> callback.onSuccess(response)
+            else -> callback.onFailure()
         }
     }
 
@@ -18,6 +19,5 @@ object ResponseCode {
         fun onResponse(response: Response<ResponseBody?>?)
         fun onSuccess(response: Response<ResponseBody?>?)
         fun onFailure()
-        fun onUnknown()
     }
 }
