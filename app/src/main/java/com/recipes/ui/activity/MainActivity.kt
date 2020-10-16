@@ -80,12 +80,16 @@ class MainActivity : AppCompatActivity() {
         val currentFragment = supportFragmentManager.findFragmentById(R.id.mainContainer)
 
         if (currentFragment is RecipesDetailsFragment) {
-            Log.d(TAG,"[onBackPressed] currentFragment is RecipesDetailsFragment, close it ")
+            Log.d(TAG, "[onBackPressed] currentFragment is RecipesDetailsFragment, close it ")
             supportFragmentManager.beginTransaction()
                     .detach(currentFragment)
                     .commit()
+        } else {
+            if ((currentFragment as RecipesListFragment).isSearchViewClicked())
+                (currentFragment as RecipesListFragment).closeKeyboard()
+            else
+                super.onBackPressed()
+
         }
-        else
-            super.onBackPressed()
     }
 }

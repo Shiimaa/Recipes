@@ -2,6 +2,7 @@ package com.recipes.ui.fragments
 
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Rect
@@ -10,10 +11,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.PopupMenu
-import android.widget.TextView
-import android.widget.Toast
+import android.view.inputmethod.InputMethodManager
+import android.widget.*
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,6 +38,11 @@ class RecipesListFragment : Fragment() {
     private lateinit var searchButton: ImageView
     private lateinit var sortButton: ImageView
     private lateinit var screenTitle: TextView
+    private lateinit var homeDetailsLayout: ConstraintLayout
+    private lateinit var searchLayout: ConstraintLayout
+    private lateinit var closeButton: ImageView
+    private lateinit var searchText: EditText
+
     private var recipesAdapter: RecipesRecyclerViewAdapter? = null
 
     private val receiver: BroadcastReceiver = object : BroadcastReceiver() {
@@ -64,6 +70,10 @@ class RecipesListFragment : Fragment() {
         searchButton = inflatedView.findViewById(R.id.searchIcon)
         sortButton = inflatedView.findViewById(R.id.sortIcon)
         screenTitle = inflatedView.findViewById(R.id.screenTitle)
+        homeDetailsLayout = inflatedView.findViewById(R.id.homeDetailsLayout)
+        searchLayout = inflatedView.findViewById(R.id.searchLayout)
+        closeButton = inflatedView.findViewById(R.id.closeIcon)
+        searchText = inflatedView.findViewById(R.id.searchEditText)
 
         registerBroadcast()
 
@@ -105,7 +115,7 @@ class RecipesListFragment : Fragment() {
 
             when (currentSortType) {
                 -1 -> {
-                    updateSortTypeKey(object : LocalKeyValueDbLoaded{
+                    updateSortTypeKey(object : LocalKeyValueDbLoaded {
                         override fun onLocalDataLoaded(value: Int) {
                             Log.d(TAG, "[onLocalDataLoaded] currentSortType:$currentSortType")
 
@@ -149,13 +159,29 @@ class RecipesListFragment : Fragment() {
         }
     }
 
-
     private fun setViewsClickListener() {
         searchButton.setOnClickListener {
+            showSearchLayout()
         }
 
         sortButton.setOnClickListener {
             createCustomPopupMenu()
+        }
+
+        closeButton.setOnClickListener {
+            closeKeyboard()
+        }
+    }
+
+    private fun showSearchLayout() {
+        if (searchLayout.visibility == View.GONE) {
+            searchLayout.visibility = View.VISIBLE
+            homeDetailsLayout.visibility = View.GONE
+            searchText.requestFocus()
+            activity?.showKeyboard(searchText)
+        } else {
+            searchLayout.visibility = View.GONE
+            homeDetailsLayout.visibility = View.VISIBLE
         }
     }
 
@@ -227,4 +253,15 @@ class RecipesListFragment : Fragment() {
                 .registerReceiver(receiver, intent)
     }
 
+    fun isSearchViewClicked(): Boolean {
+        return searchLayout.visibility == View.VISIBLE
+    }
+
+    fun closeKeyboard() {
+        searchLayout.visibility = View.GONE
+        homeDetailsLayout.visibility = View.VISIBLE
+        searchText.setText("")
+        activity?.hideKeyboard(searchText)
+
+    }
 }
