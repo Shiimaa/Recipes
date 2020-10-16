@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Recipes</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="calTitle">Calories</string>
+    <string name="carbTitle">Carbos</string>
+    <string name="fatTitle">Fats</string>
+    <string name="protTitle">Proteins</string>
+    <string name="timeTitle">Time</string>
 </resources>

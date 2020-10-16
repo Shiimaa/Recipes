@@ -50,6 +50,10 @@ fun parseArticlesResponseBody(response: String): List<Recipes>? {
             Log.d(TAG, "[parseArticlesResponseBody] RECIPES_PROTEINS of child $i: ${child.get(RECIPES_PROTEINS)}")
             recipe.proteins = child.getString(RECIPES_PROTEINS)
         }
+        if (child.has(RECIPES_FATS)) {
+            Log.d(TAG, "[parseArticlesResponseBody] RECIPES_FATS of child $i: ${child.get(RECIPES_FATS)}")
+            recipe.fats = child.getString(RECIPES_FATS)
+        }
         if (child.has(RECIPES_THUMB)) {
             Log.d(TAG, "[parseArticlesResponseBody] RECIPES_THUMB of child $i: ${child.get(RECIPES_THUMB)}")
             recipe.thumbUrl = child.getString(RECIPES_THUMB)

@@ -11,6 +11,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.PopupMenu
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -35,6 +37,7 @@ class RecipesListFragment : Fragment() {
     private lateinit var recipesRecyclerView: RecyclerView
     private lateinit var searchButton: ImageView
     private lateinit var sortButton: ImageView
+    private lateinit var screenTitle: TextView
     private var recipesAdapter: RecipesRecyclerViewAdapter? = null
 
     private val receiver: BroadcastReceiver = object : BroadcastReceiver() {
@@ -61,6 +64,7 @@ class RecipesListFragment : Fragment() {
         recipesRecyclerView = inflatedView.findViewById(R.id.recipesRecyclerView)
         searchButton = inflatedView.findViewById(R.id.searchIcon)
         sortButton = inflatedView.findViewById(R.id.sortIcon)
+        screenTitle = inflatedView.findViewById(R.id.screenTitle)
 
         registerBroadcast()
 
@@ -68,6 +72,8 @@ class RecipesListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        setViewsClickListener()
+
         recipesAdapter = RecipesRecyclerViewAdapter()
         recipesRecyclerView.layoutManager = LinearLayoutManager(context)
         recipesRecyclerView.adapter = recipesAdapter
@@ -114,6 +120,22 @@ class RecipesListFragment : Fragment() {
             })
         })
     }
+
+
+    private fun setViewsClickListener() {
+        searchButton.setOnClickListener {
+//            if (searchEditText.visibility == View.GONE) {
+//                searchEditText.visibility = View.VISIBLE
+//                screenTitle.visibility = View.GONE
+//            } else {
+//                searchEditText.visibility = View.GONE
+//                screenTitle.visibility = View.VISIBLE
+//
+//            }
+        }
+    }
+
+
 
     private fun registerBroadcast() {
         val intent = IntentFilter()

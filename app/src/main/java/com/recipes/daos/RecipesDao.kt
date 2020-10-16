@@ -17,6 +17,9 @@ interface RecipesDao {
     @Query("SELECT * FROM RECIPES ORDER BY fats")
     fun getAllRecipesByFats(): List<Recipes>
 
+    @Query("SELECT * FROM RECIPES WHERE id= :recipeId")
+    fun getAllRecipeById(recipeId:String): Recipes
+
     @Insert
     fun insertRecipe(recipe: Recipes)
 

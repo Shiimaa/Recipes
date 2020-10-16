@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:clickable="true"
+    tools:context=".ui.fragments.RecipesDetailsFragment">
+
+    <ImageView
+        android:id="@+id/recipeImage"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="fitXY"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/backIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:src="@drawable/ic_arrow_back"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/recipeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="18dp"
+        android:maxLines="1"
+        android:textColor="@color/textTitleColor"
+        android:textSize="24sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recipeImage" />
+
+    <TextView
+        android:id="@+id/recipeHeadline"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="2dp"
+        android:maxLines="1"
+        android:paddingRight="26dp"
+        android:textColor="@color/subTextColor"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recipeName" />
+
+    <TextView
+        android:id="@+id/recipeDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="20dp"
+        android:paddingRight="26dp"
+        android:textColor="@color/grey_font"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recipeHeadline" />
+
+    <TextView
+        android:id="@+id/caloriesTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="26dp"
+        android:text="@string/calTitle"
+        android:textColor="@color/grey_font"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recipeDescription" />
+
+    <TextView
+        android:id="@+id/caloriesValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="26dp"
+        android:textColor="@color/grey_font"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toRightOf="@id/caloriesTitle"
+        app:layout_constraintTop_toBottomOf="@id/recipeDescription" />
+
+    <TextView
+        android:id="@+id/carbosTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/carbTitle"
+        android:textColor="@color/grey_font"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/caloriesTitle" />
+
+    <TextView
+        android:id="@+id/carbosValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/grey_font"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="@+id/caloriesValue"
+        app:layout_constraintLeft_toRightOf="@id/carbosTitle"
+        app:layout_constraintTop_toBottomOf="@id/caloriesTitle" />
+
+    <TextView
+        android:id="@+id/fatsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/fatTitle"
+        android:textColor="@color/grey_font"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/carbosTitle" />
+
+    <TextView
+        android:id="@+id/fatsValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/grey_font"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="@+id/carbosValue"
+        app:layout_constraintTop_toBottomOf="@id/carbosValue" />
+
+
+    <TextView
+        android:id="@+id/proteinsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/protTitle"
+        android:textColor="@color/grey_font"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fatsTitle" />
+
+    <TextView
+        android:id="@+id/proteinsValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/grey_font"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="@+id/fatsValue"
+        app:layout_constraintLeft_toRightOf="@id/proteinsTitle"
+        app:layout_constraintTop_toBottomOf="@id/fatsValue" />
+
+
+    <TextView
+        android:id="@+id/timeTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/timeTitle"
+        android:textColor="@color/grey_font"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/proteinsTitle" />
+
+    <TextView
+        android:id="@+id/timeValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/grey_font"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="@+id/proteinsValue"
+        app:layout_constraintLeft_toRightOf="@id/timeTitle"
+        app:layout_constraintTop_toBottomOf="@id/proteinsValue" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
