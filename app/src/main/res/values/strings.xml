@@ -6,4 +6,7 @@
     <string name="fatTitle">Fats</string>
     <string name="protTitle">Proteins</string>
     <string name="timeTitle">Time</string>
+
+    <string name="sortCalItem">By Calories</string>
+    <string name="sortFatItem">By Fats</string>
 </resources>

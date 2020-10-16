@@ -51,6 +51,9 @@ class RecipesRecyclerViewAdapter : RecyclerView.Adapter<RecipesRecyclerViewAdapt
     fun updateRecipesList(newRecipesList: List<Recipes>) {
         recipesList.addAll(newRecipesList)
     }
+    fun clearRecipesList() {
+        recipesList = ArrayList()
+    }
 
     class RecipesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val recipeImage: ImageView = itemView.findViewById(R.id.recipeImage)

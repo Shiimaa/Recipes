@@ -24,12 +24,11 @@ import com.recipes.application.App
 import com.recipes.dispatchqueues.synchronous.postTOUiThread
 import com.recipes.dispatchqueues.synchronous.postToHandleDbQueue
 import com.recipes.interfaces.LocalDbLoaded
+import com.recipes.interfaces.LocalKeyValueDbLoaded
 import com.recipes.models.Recipes
-import com.recipes.operations.db.getAllRecipes
+import com.recipes.operations.db.*
 import com.recipes.operations.network.getRecipes
-import com.recipes.utils.RECIPES_NOT_RETRIEVED
-import com.recipes.utils.RECIPES_RETRIEVED_SUCCESSFULLY
-import com.recipes.utils.dp2Px
+import com.recipes.utils.*
 
 
 class RecipesListFragment : Fragment() {
@@ -102,40 +101,122 @@ class RecipesListFragment : Fragment() {
 
     private fun loadData() {
         postToHandleDbQueue(Runnable {
-            getAllRecipes(object : LocalDbLoaded {
-                override fun onLocalDataLoaded(recipes: List<Recipes>) {
-                    // if received list not empty, update adapter
-                    // else request data from backend
-                    if (recipes.isNotEmpty()) {
-                        postTOUiThread(Runnable {
-                            // add retrieved recipes to adapter
-                            recipesAdapter?.updateRecipesList(recipes)
-                            // notify adapter that there is changing in data
-                            recipesAdapter?.notifyDataSetChanged()
-                        })
-                    } else {
-                        getRecipes()
-                    }
+            Log.d(TAG, "[loadData] currentSortType:$currentSortType")
+
+            when (currentSortType) {
+                -1 -> {
+                    updateSortTypeKey(object : LocalKeyValueDbLoaded{
+                        override fun onLocalDataLoaded(value: Int) {
+                            Log.d(TAG, "[onLocalDataLoaded] currentSortType:$currentSortType")
+
+                            currentSortType = value
+                            loadData()
+                        }
+                    })
+
                 }
-            })
+                SORT_BY_CAL -> getAllRecipesByCalories(object : LocalDbLoaded {
+                    override fun onLocalDataLoaded(recipes: List<Recipes>) {
+                        checkRetrievedData(recipes)
+                    }
+                })
+                SORT_BY_FAT -> getAllRecipesByFats(object : LocalDbLoaded {
+                    override fun onLocalDataLoaded(recipes: List<Recipes>) {
+                        checkRetrievedData(recipes)
+                    }
+                })
+                else -> getAllRecipes(object : LocalDbLoaded {
+                    override fun onLocalDataLoaded(recipes: List<Recipes>) {
+                        checkRetrievedData(recipes)
+                    }
+                })
+            }
         })
+    }
+
+    private fun checkRetrievedData(recipes: List<Recipes>) {
+        // if received list not empty, update adapter
+        // else request data from backend
+        if (recipes.isNotEmpty()) {
+            postTOUiThread(Runnable {
+                // add retrieved recipes to adapter
+                recipesAdapter?.updateRecipesList(recipes)
+                // notify adapter that there is changing in data
+                recipesAdapter?.notifyDataSetChanged()
+            })
+        } else {
+            getRecipes()
+        }
     }
 
 
     private fun setViewsClickListener() {
         searchButton.setOnClickListener {
-//            if (searchEditText.visibility == View.GONE) {
-//                searchEditText.visibility = View.VISIBLE
-//                screenTitle.visibility = View.GONE
-//            } else {
-//                searchEditText.visibility = View.GONE
-//                screenTitle.visibility = View.VISIBLE
-//
-//            }
+        }
+
+        sortButton.setOnClickListener {
+            createCustomPopupMenu()
         }
     }
 
+    private fun createCustomPopupMenu() {
+        //Creating the instance of PopupMenu
+        val menu = PopupMenu(context, sortButton)
+        //Inflating the Popup using xml file
+        menu.menuInflater
+                .inflate(R.menu.sort_items_menu, menu.menu);
 
+        //registering popup with OnMenuItemClickListener
+        menu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.sortCal -> {
+                    currentSortType = SORT_BY_CAL
+                    sortItems(SORT_BY_CAL)
+                }
+                R.id.sortFat -> {
+                    currentSortType = SORT_BY_FAT
+                    sortItems(SORT_BY_FAT)
+                }
+
+            }
+            true
+        })
+
+        //showing popup menu
+        menu.show()
+
+
+    }
+
+    private fun sortItems(sortType: Int) {
+        postToHandleDbQueue(Runnable {
+            if (sortType == SORT_BY_CAL) {
+                insertKey(SORT_BY_CAL)
+                getAllRecipesByCalories(object : LocalDbLoaded {
+                    override fun onLocalDataLoaded(recipes: List<Recipes>) {
+                        if (recipes.isNotEmpty())
+                            postTOUiThread(Runnable {
+                                recipesAdapter?.clearRecipesList()
+                                recipesAdapter?.updateRecipesList(recipes)
+                                recipesAdapter?.notifyDataSetChanged()
+                            })
+                    }
+                })
+            } else {
+                insertKey(SORT_BY_FAT)
+                getAllRecipesByFats(object : LocalDbLoaded {
+                    override fun onLocalDataLoaded(recipes: List<Recipes>) {
+                        if (recipes.isNotEmpty())
+                            postTOUiThread(Runnable {
+                                recipesAdapter?.clearRecipesList()
+                                recipesAdapter?.updateRecipesList(recipes)
+                                recipesAdapter?.notifyDataSetChanged()
+                            })
+                    }
+                })
+            }
+        })
+    }
 
     private fun registerBroadcast() {
         val intent = IntentFilter()

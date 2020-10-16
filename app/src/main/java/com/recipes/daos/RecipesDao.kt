@@ -11,10 +11,10 @@ interface RecipesDao {
     @Query("SELECT * FROM RECIPES")
     fun getAllRecipes(): List<Recipes>
 
-    @Query("SELECT * FROM RECIPES ORDER BY calories ")
+    @Query("SELECT * FROM RECIPES ORDER BY calories DESC")
     fun getAllRecipesByCalories(): List<Recipes>
 
-    @Query("SELECT * FROM RECIPES ORDER BY fats")
+    @Query("SELECT * FROM RECIPES ORDER BY fats DESC")
     fun getAllRecipesByFats(): List<Recipes>
 
     @Query("SELECT * FROM RECIPES WHERE id= :recipeId")

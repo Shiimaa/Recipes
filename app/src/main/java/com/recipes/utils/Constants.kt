@@ -16,3 +16,6 @@ const val RECIPES_RETRIEVED_SUCCESSFULLY = "RRS"
 const val RECIPES_NOT_RETRIEVED = "RNR"
 const val CLICKED_RECIPE_ACTION = "CRA"
 const val CLICKED_RECIPE_ID = "CRI"
+const val SORT_BY_CAL = 1
+const val SORT_BY_FAT = 2
+const val SORT_TYPE_KEY = "STK"
